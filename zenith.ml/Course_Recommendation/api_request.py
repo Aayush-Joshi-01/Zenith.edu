@@ -10,6 +10,6 @@ class test(Resource):
     def get(self):
         return {"status":"ok"}
 
-
+api.add_resource(test,'/test')
 if __name__ == '__main__':
-    app.run(debug=True, host='192.168.137.1', port=5000)
+    app.run(host='172.16.26.155', port=5000)
