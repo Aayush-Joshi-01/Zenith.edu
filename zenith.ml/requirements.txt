@@ -1,0 +1,7 @@
+torch
+numpy
+flask-restful
+flask-cors
+moviepy
+faster_whisper
+google-generativeai
