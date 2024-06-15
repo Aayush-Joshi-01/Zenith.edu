@@ -1,2 +1,3 @@
 zenith.ml/Video_Transcription/uploads/*.mp4
 zenith.ml/Video_Transcription/audios/*.mp3
+zenith.ml/*/__pycache__
