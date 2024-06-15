@@ -95,7 +95,7 @@ export default function PublicProfile() {
         <nav className="bg-grey text-white border-gray-200 py-2.5 dark:bg-gray-900">
           <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
             <Link to="/" className="flex items-center">
-              <img src="/logo.png" className="h-6 mr-3 sm:h-9" alt="Logo" />
+              <img src="/zenithlogo.png" className="h-6 mr-3 sm:h-9" alt="Logo" />
             </Link>
             <div className="flex items-center lg:order-2">
               {checklogin === null ? (

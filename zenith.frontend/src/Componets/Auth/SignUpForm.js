@@ -39,8 +39,6 @@ const SignUpForm = ({ handleToggle }) => {
 
   const handleClick = async () => {
     setIsLoading(true);
-
-    // Basic validations
     if (
       userData.Email === "" ||
       userData.Password === "" ||
@@ -85,7 +83,6 @@ const SignUpForm = ({ handleToggle }) => {
   };
 
   const isValidEmail = (email) => {
-    // Simple email validation regex
     return /\S+@\S+\.\S+/.test(email);
   };
 

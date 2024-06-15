@@ -79,7 +79,7 @@ export default function MyCourses() {
         <CoursesNavbar />
         <div className="text-center mt-8">
           <h2 className="text-3xl bg-gray-900 text-white font-semibold">
-            My Courses
+            My Favorite
           </h2>
         </div>
         <div className="w-full p-4 sm:p-10">

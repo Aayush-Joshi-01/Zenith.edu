@@ -25,7 +25,7 @@ export default function CoursesNavbar() {
   return (
     <nav className="flex bg-gray-900 text-white justify-between items-center p-4">
       <Link to="/courses" className="flex items-center">
-        <img src="/zenithlogo.png" className="h-6 ml-5 sm:h-9" alt="Logo" />
+        <img src="/zenithlogo.png" className="h-6 ml-5 sm:h-9" alt="Logo" style={{width: "250px", height:"55px"}} />
       </Link>
       <div className="hidden sm:flex gap-8">
         <Link to="/courses" className="home-nav-link hover:text-gray-300">

@@ -6,6 +6,8 @@ import os
 import logging
 import io
 
+from mongo_connection import find_course_transcribe
+
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
@@ -20,14 +22,17 @@ generation_config = {
     "response_mime_type": "text/plain",
 }
 
-generative_model = genai.GenerativeModel(
+model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
 )
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-chat_session = ChatSession()
+chat_session = model.start_chat(
+    history=[
+    ]
+)
 
 class ChatbotResource(Resource):
     """
@@ -37,7 +42,7 @@ class ChatbotResource(Resource):
 
     {
         "user_prompt": "User prompt.",
-        "video_id": "id",
+        "id": "id",
         "chat_history": ["previous conversation history"]
     }
 
@@ -53,29 +58,25 @@ class ChatbotResource(Resource):
             data = request.get_json()
 
             user_prompt = data.get('user_prompt', '')
-            id = data.get('id', '')
+            course_id = data.get('id')
             chat_history = data.get('chat_history', [])
-
-            chat_session.chat_history = chat_history
-
+            print(data)
+            transcribes=find_course_transcribe(course_id)
             prompt = (
                 f"You are an expert in the topic discussed in the following transcript. "
                 f"The user will ask questions based on this transcript. Provide clear and concise answers "
                 f"within 200 words.\n\n"
-                f"Transcript:\n{transcript}\n\n"
+                f"Transcript:\n{transcribes}\n\n"
                 f"User Question: {user_prompt}\n"
-                f"Conversation History: {' '.join(chat_history)}"
+                f"Conversation History: {chat_history}"
             )
+            print(prompt)
 
-            response = generative_model.generate(prompt=prompt)
-
-            response_text = response.choices[0].text.strip()
-
-            chat_session.update_history(user_prompt, response_text)
-
+            response = chat_session.send_message(prompt)
+            chat_history.append({"user":user_prompt,"response":response.text})
             return jsonify({
-                'response': response_text,
-                'chat_history': chat_session.chat_history
+                'response': response.text,
+                'chat_history': chat_history
             })
 
         except Exception as e:
@@ -83,3 +84,6 @@ class ChatbotResource(Resource):
             return {'error': 'Internal server error'}, 500
 
 api.add_resource(ChatbotResource, '/chat')
+
+if __name__=="__main__":
+    app.run(debug=True,host='0.0.0.0',port=5000)

@@ -15,6 +15,7 @@ import ModulateCourses from "./Componets/ModulateCourse/ModulatorCourses";
 import MyCourses from "./Componets/MyCourses/MyCourses";
 import UserProfile from "./Componets/Profile/UserProfile";
 import PublicProfile from "./Componets/Profile/PublicProfile";
+import TryCourseTabs from "./Componets/Courses/TryCoursesTabs";
 function App() {
   const [selectedDocs, setselectedDocs] = useState([]);
   return (
@@ -33,6 +34,15 @@ function App() {
             path="/coursedocs"
             element={
               <CourseTabs
+                selectedDocs={selectedDocs}
+                setselectedDocs={setselectedDocs}
+              />
+            }
+          />
+          <Route
+            path="/trycoursedocs"
+            element={
+              <TryCourseTabs
                 selectedDocs={selectedDocs}
                 setselectedDocs={setselectedDocs}
               />

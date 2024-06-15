@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NotFound from "../Nopage/NotFound";
-import CoursesNavbar from "../Navbar/TryCoursesNavbar";
+import TryCoursesNavbar from "../Navbar/TryCoursesNavbar";
 
 export default function Courses() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Courses() {
   return (
     <>
       <div className="bg-gray-900 text-white">
-        <CoursesNavbar />
+        <TryCoursesNavbar />
         <div className="text-center mt-8">
           <h2 className="text-3xl bg-gray-900 text-white font-semibold">
             Try Courses
@@ -63,7 +63,7 @@ export default function Courses() {
                     sessionStorage.setItem("CourseID", c._id);
                     sessionStorage.setItem("CourseUserID", c.userID);
                     sessionStorage.setItem("CourseName", c.title);
-                    navigate("/coursedocs");
+                    navigate("/trycoursedocs");
                   }}
                 >
                   <img

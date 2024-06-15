@@ -16,7 +16,6 @@ import {
   faGraduationCap,
   faBoxOpen,
 } from "@fortawesome/free-solid-svg-icons";
-// import axios from "axios";
 
 const learnIcon = {
   icon: <FontAwesomeIcon icon={faLaptopFile} />,
@@ -195,7 +194,7 @@ const HomePage = () => {
                   <h4 className=" transition ease-in-out delay-110 hover:scale-125 ">Try Courses</h4>
                 </Link>
                 <Link
-                  to="/courses"
+                  to="/auth"
                   className="inline-flex items-center justify-center w-full px-5 py-3 mb-2 mr-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:w-auto focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-950 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700  "
                 >
                   <style

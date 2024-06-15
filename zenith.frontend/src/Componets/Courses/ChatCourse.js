@@ -6,7 +6,8 @@ function CourseChat() {
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
 
-  const courseId = sessionStorage.getItem("CourseID");
+const courseId = sessionStorage.getItem("CourseID");
+console.log(courseId); // Verify the courseId value
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -14,17 +15,22 @@ function CourseChat() {
 
   const fetchResponseFromAPI = async () => {
     try {
-      const response = await fetch("localhost:5000/chat", {
+      const response = await fetch("http://localhost:5000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           user_prompt: inputText,
-          course_id: courseId,
-          chat_history: chatHistory.map(message => message.text)
+          id: courseId, // Change 'course_id' to 'id'
+          chat_history: chatHistory.map((message) => message.text),
         }),
       });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
       const data = await response.json();
       return { response: data.response, updatedChatHistory: data.chat_history };
     } catch (error) {
