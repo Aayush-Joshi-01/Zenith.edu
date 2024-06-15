@@ -37,7 +37,7 @@ class ChatbotResource(Resource):
 
     {
         "user_prompt": "User prompt.",
-        "transcript": "transcript",
+        "video_id": "id",
         "chat_history": ["previous conversation history"]
     }
 

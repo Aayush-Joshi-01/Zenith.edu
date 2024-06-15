@@ -15,7 +15,7 @@ def find_video_data(id):
         return data,True
     return None, False
 
-def add_transcript(id, data, transcript):
+def add_transcript(video_id, transcript):
+    data=list(videos.find({"_id":ObjectId(video_id)}))[0]
     data["Trascribe"]=transcript
-    videos.update_one({"_id":ObjectId(id)},{"$set":data})
-    
+    videos.update_one({"_id":ObjectId(video_id)},{"$set":data})
