@@ -54,6 +54,7 @@ class TranscribeVideo(Resource):
     id: [video mongodb id]
     file: [video file]
 
+    sample id: 666cc5390f6ecd103ba95f26
     response
     {'transcription': transcription string}
     """
