@@ -14,7 +14,7 @@ function CourseChat() {
 
   const fetchResponseFromAPI = async () => {
     try {
-      const response = await fetch("Ashwin_link_of_flask/chat", {
+      const response = await fetch("localhost:5000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
