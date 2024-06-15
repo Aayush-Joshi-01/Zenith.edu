@@ -9,8 +9,7 @@ import io
 import wave
 import numpy as np
 from werkzeug.utils import secure_filename
-
-from ..mongo_connection import find_video_data, add_transcript
+from mongo_connection import find_video_data, add_transcript
 
 app = Flask(__name__)
 api = Api(app)
@@ -26,7 +25,6 @@ whisper_model = WhisperModel("base.en")
 def extract_audio(video_file):
     try:
         video = VideoFileClip(video_file,verbose=True)
-        print(video_file)
         audio_path=os.path.join("audios",video_file.replace('mp4','mp3').split('\\')[1])
         video.audio.write_audiofile(audio_path)
         return audio_path
@@ -66,7 +64,7 @@ class TranscribeVideo(Resource):
             if 'file' not in request.files:
                 return {'error': 'No file part in the request'}, 400
 
-            video_id=request.files['id']
+            video_id=request.form['id']
             file = request.files['file']
             
 
@@ -76,7 +74,6 @@ class TranscribeVideo(Resource):
             if file:
                 try:
                     video_file = io.BytesIO(file.read())
-
                     audio_buffer = extract_audio(video_file)
                     transcription = transcribe(audio_buffer)
                     
