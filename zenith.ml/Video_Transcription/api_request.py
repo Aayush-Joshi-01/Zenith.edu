@@ -78,11 +78,9 @@ class TranscribeVideo(Resource):
                     file.save(filename)
                     print(filename)
                     audio_buffer = extract_audio(filename)
-                    transcription = transcribe(audio_buffer)
-                    add_transcript(id,data,transcript)
-                    torch.cuda.empty_cache()
-                    
-                    return {'transcription': transcription}, 200
+                    transcript = transcribe(audio_buffer)
+                    add_transcript(video_id,transcript)
+                    return {'transcription': transcript}, 200
 
                 except Exception as e:
                     logger.error(f"Error processing file: {str(e)}")
