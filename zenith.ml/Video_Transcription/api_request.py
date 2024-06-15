@@ -3,7 +3,6 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 from moviepy.editor import VideoFileClip
 from faster_whisper import WhisperModel
-import torch
 import os
 import logging
 import io
@@ -35,8 +34,11 @@ def extract_audio(video_file):
 
 def transcribe(audio_path):
     try:
-        segments, info = whisper_model.transcribe(audio_path, vad_filter=True, vad_parameters=dict(min_silence_duration_ms=500))
-        transcription = "".join([segment['text'] for segment in segments])
+        segments, info = whisper_model.transcribe(audio_path, vad_filter=True, 
+        vad_parameters=dict(min_silence_duration_ms=500))
+
+        transcription = "".join([segment.text for segment in segments])
+        print(transcription)
         return transcription
     except Exception as e:
         logger.error(f"Error transcribing audio: {str(e)}")
@@ -75,7 +77,6 @@ class TranscribeVideo(Resource):
                     print("audio extracted")
                     transcription = transcribe(audio_buffer)
                     print("file transcribed")
-                    torch.cuda.empty_cache()
                     
                     return {'transcription': transcription}, 200
 
