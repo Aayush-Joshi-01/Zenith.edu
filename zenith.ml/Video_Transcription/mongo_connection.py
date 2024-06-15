@@ -16,6 +16,6 @@ def find_video_data(id):
     return None, False
 
 def add_transcript(id, data, transcript):
-    data["transcript"]=transcript
+    data["Trascribe"]=transcript
     videos.update_one({"_id":ObjectId(id)},{"$set":data})
     

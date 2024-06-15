@@ -1,2 +1,2 @@
-zenith.ml\Video_Transcription\uploads
-zenith.ml\Video_Transcription\audios
+zenith.ml/Video_Transcription/uploads/*.mp4
+zenith.ml/Video_Transcription/audios/*.mp3

@@ -53,7 +53,7 @@ class ChatbotResource(Resource):
             data = request.get_json()
 
             user_prompt = data.get('user_prompt', '')
-            transcript = data.get('transcript', '')
+            id = data.get('id', '')
             chat_history = data.get('chat_history', [])
 
             chat_session.chat_history = chat_history

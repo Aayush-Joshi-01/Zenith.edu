@@ -73,10 +73,13 @@ class TranscribeVideo(Resource):
 
             if file:
                 try:
-                    video_file = io.BytesIO(file.read())
-                    audio_buffer = extract_audio(video_file)
+                    data,is_dataindb=find_video_data(video_id)
+                    filename=os.path.join("uploads",secure_filename(file.filename))
+                    file.save(filename)
+                    print(filename)
+                    audio_buffer = extract_audio(filename)
                     transcription = transcribe(audio_buffer)
-                    
+                    add_transcript(id,data,transcript)
                     torch.cuda.empty_cache()
                     
                     return {'transcription': transcription}, 200
