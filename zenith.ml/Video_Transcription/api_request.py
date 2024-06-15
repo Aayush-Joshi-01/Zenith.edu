@@ -10,6 +10,8 @@ import io
 import wave
 import numpy as np
 
+from ..mongo_connection import find_video_data, add_transcript
+
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
@@ -47,7 +49,8 @@ class TranscribeVideo(Resource):
     request
     POST /transcribe
     Content-Type: multipart/form-data
-    File: [your video file]
+    id: [video mongodb id]
+    file: [video file]
 
     response
     {'transcription': transcription string}
@@ -57,17 +60,23 @@ class TranscribeVideo(Resource):
             if 'file' not in request.files:
                 return {'error': 'No file part in the request'}, 400
 
+            video_id=request.files['id']
             file = request.files['file']
+            
 
             if file.filename == '':
                 return {'error': 'No file selected for uploading'}, 400
 
             if file:
                 try:
+                    data,is_data_indb=find_video_data(video_id)
+                    if not is_data_indb:
+                        return {'error':"Video id doesnot exist in database.."}, 404
+                
                     video_file = io.BytesIO(file.read())
-
                     audio_buffer = extract_audio(video_file)
                     transcription = transcribe(audio_buffer)
+                    add_transcript(data,transcription)
                     
                     torch.cuda.empty_cache()
                     
