@@ -166,12 +166,12 @@ export default function ProjectTabs() {
                   icon={faDiagramProject}
                   className="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3"
                 />
-                <h5 className="mb-2 text-2xl font-semibold tracking-tight text-white dark:text-white">
+                <h5 className="mb-1 text-2xl font-semibold tracking-tight text-white dark:text-white">
                   {item?.ProjectTitle}
                 </h5>
                 <p
-                  className="mb-3 font-normal text-gray-300 dark:text-gray-400"
-                  style={{ minHeight: "75px" }}
+                  className="mb-1 font-normal text-gray-300 dark:text-gray-400"
+                  style={{ minHeight: "70px" }}
                 >
                   {item?.ProjectDesc?.substring(0, 60) + "..."}
                 </p>

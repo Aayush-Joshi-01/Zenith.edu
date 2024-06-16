@@ -30,8 +30,8 @@ model = genai.GenerativeModel(
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 chat_session = model.start_chat(
-    history=[
-    ]
+    # history=[
+    # ]
 )
 
 class ChatbotResource(Resource):
@@ -60,22 +60,28 @@ class ChatbotResource(Resource):
             user_prompt = data.get('user_prompt', '')
             course_id = data.get('id')
             chat_history = data.get('chat_history', [])
-            print(data)
+            # print(data)
+            if chat_history:
+                for element in chat_history:
+                    if not isinstance(element,dict):
+                        chat_history.remove(element)
             transcribes=find_course_transcribe(course_id)
             prompt = (
-                f"You are an expert in the topic discussed in the following transcript. "
-                f"The user will ask questions based on this transcript. Provide clear and concise answers "
-                f"within 200 words.\n\n"
+                f"Your name is Zenai"
+                f"Act as if you are an expert in the topic whoes video transcript We will be giving you the user will ask variety of questions that will be mentioned below along with transcript and history(that will include user question and your previous response) if a person's respose mentions the use of the last recent respose check the most recent response that you gave and give next response accordingly"
+                f"The user will ask questions based on this transcript. Provide clear and concise answers in the text format do not give the md format and try to put it in point basis"
+                f"within 100 words.\n\n"
                 f"Transcript:\n{transcribes}\n\n"
                 f"User Question: {user_prompt}\n"
                 f"Conversation History: {chat_history}"
             )
-            print(prompt)
-
+            # print(chat_history)
+            # print("---------------------")
             response = chat_session.send_message(prompt)
             chat_history.append({"user":user_prompt,"response":response.text})
+            # print(chat_history)
             return jsonify({
-                'response': response.text,
+                'response': response.text.replace('*', '').replace('\n', ''),
                 'chat_history': chat_history
             })
 

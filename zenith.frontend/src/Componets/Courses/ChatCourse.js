@@ -4,38 +4,32 @@ function CourseChat() {
   const [inputText, setInputText] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const messagesEndRef = useRef(null);
-  const chatContainerRef = useRef(null);
-
-const courseId = sessionStorage.getItem("CourseID");
-console.log(courseId); // Verify the courseId value
+  const courseId = sessionStorage.getItem("CourseID");
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const fetchResponseFromAPI = async () => {
+  const fetchResponseFromAPI = async (requestBody) => {
     try {
       const response = await fetch("http://localhost:5000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          user_prompt: inputText,
-          id: courseId, // Change 'course_id' to 'id'
-          chat_history: chatHistory.map((message) => message.text),
-        }),
+        body: JSON.stringify(requestBody),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const data = await response.json();
-      return { response: data.response, updatedChatHistory: data.chat_history };
+      sessionStorage.setItem("aiResponse", data.response);
+      return data; 
     } catch (error) {
       console.error("Error fetching data:", error);
-      return { response: "Error fetching response.", updatedChatHistory: chatHistory };
+      return { response: "Error fetching response.", chat_history: [] };
     }
   };
 
@@ -43,33 +37,37 @@ console.log(courseId); // Verify the courseId value
     e.preventDefault();
     if (inputText.trim() === "") return;
 
-    const { response, updatedChatHistory } = await fetchResponseFromAPI();
-    setChatHistory([...updatedChatHistory, { text: inputText, sender: "User" }, { text: response, sender: "ZenAI" }]);
+    const userMessage = { text: inputText, sender: "User" };
+    setChatHistory((prevChatHistory) => [...prevChatHistory, userMessage]); 
     setInputText("");
+
+    let requestBody = {
+      user_prompt: inputText,
+      id: courseId,
+      chat_history: chatHistory, 
+    };
+
+    const { response, chat_history: updatedChatHistory } = await fetchResponseFromAPI(requestBody);
+
+    const aiMessage = { text: response, sender: "ZenAI" };
+    setChatHistory((prevChatHistory) => [...prevChatHistory, aiMessage]); 
+
+    sessionStorage.setItem("chat_history", JSON.stringify(updatedChatHistory));
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [chatHistory]);
+  }, [chatHistory]); 
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto mt-8 h-[400px] border border-gray-300 rounded-lg overflow-hidden">
-      <div
-        className="flex-1 p-4 overflow-y-auto"
-        ref={chatContainerRef}
-        style={{ scrollBehavior: "smooth", overflow: "overlay" }}
-      >
+    <div className="flex flex-col w-full max-w-xl mx-auto mt-8 h-[400px] border border-gray-300 rounded-lg overflow-hidden">
+      <div className="flex-1 p-4 overflow-y-auto" style={{ scrollBehavior: "smooth", overflow: "overlay" }}>
         {chatHistory.map((message, index) => (
-          <div
-            key={index}
-            className={`my-2 ${message.sender === "User" ? "self-end" : "self-start"}`}
-          >
-            <div
-              className={`p-2 rounded-lg ${message.sender === "User" ? "bg-blue-500 text-white" : "bg-white text-black"}`}
-            >
+          <div key={index} className={`my-2 ${message.sender === "User" ? "self-end" : "self-start"}`}>
+            <div className={`p-2 rounded-lg ${message.sender === "User" ? "bg-blue-500 text-white" : "bg-white text-black"}`}>
               <p>{message.text}</p>
               <div className="flex justify-between mt-2">
-                <p className="text-xs text-white-500">{new Date().toLocaleTimeString()}</p>
+                <p className="text-xs text-gray-500">{new Date().toLocaleTimeString()}</p>
                 <p className="text-xs font-semibold">{message.sender}</p>
               </div>
             </div>

@@ -8,11 +8,11 @@ videos = db["videos"]
 
 def find_course_transcribe(course_id):
     rows=list(videos.find({"CourseID":course_id}))
-    print(rows)
+    # print(rows)
     transcribes=[]
-    print(type(course_id))
+    # print(type(course_id))
     for data in rows:
-        print(data)
+        # print(data)
         transcribes.append(data["Trascribe"])
     return "".join(transcribes)
 
