@@ -4,23 +4,33 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const [IsLoading, setIsLoading] = useState(false);
   const [UserData, SetUserData] = useState({
     Data: "",
     Password: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     SetUserData({ ...UserData, [name]: value });
   };
-  const handleClick = async () =>
-  {
+
+  const handleKeyDown = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent default form submission
+      await handleClick();
+    }
+  };
+
+  const handleClick = async () => {
     setIsLoading(true);
+
     if (UserData.Data === "" || UserData.Password === "") {
       setIsLoading(false);
-      return toast.warning("Filled is empty");
+      return toast.warning("Fields are empty");
     }
+
     try {
       const res = await axios.post(
         "http://localhost:3001/auth/login",
@@ -37,7 +47,7 @@ const LoginForm = () => {
           Data: "",
           Password: "",
         });
-        navigate('/courses')
+        navigate('/courses');
       } else {
         setIsLoading(false);
         toast.error(res.data.message);
@@ -71,6 +81,7 @@ const LoginForm = () => {
               placeholder="Password"
               name="Password"
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               className="Login-input"
               value={UserData.Password}
               autoComplete="off"

@@ -68,8 +68,13 @@ class ChatbotResource(Resource):
             transcribes=find_course_transcribe(course_id)
             prompt = (
                 f"Your name is Zenai"
-                f"Act as if you are an expert in the topic whoes video transcript We will be giving you the user will ask variety of questions that will be mentioned below along with transcript and history(that will include user question and your previous response) if a person's respose mentions the use of the last recent respose check the most recent response that you gave and give next response accordingly"
-                f"The user will ask questions based on this transcript. Provide clear and concise answers in the text format do not give the md format and try to put it in point basis"
+                f"Act as if you are an expert in the topic whoes video transcript We will be giving you the user will "
+                f"ask variety of questions that will be mentioned below along with transcript and history"
+                f"(that will include user question and your previous response) if a person's respose mentions the use of the "
+                f"last recent respose check the" 
+                f" most recent response that you gave and give next response accordingly"
+                f"The user will ask questions based on this transcript. Provide clear and concise answers in the text format do not "
+                f"give the md format and try to put it in point basis"
                 f"within 100 words.\n\n"
                 f"Transcript:\n{transcribes}\n\n"
                 f"User Question: {user_prompt}\n"

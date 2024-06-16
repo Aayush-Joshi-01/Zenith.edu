@@ -163,7 +163,7 @@ function DoucumationModulate() {
                     color: "white",
                   }}
                 >
-                  Documentation SubTitle
+                  Documentation Content
                 </TableCell>
                 <TableCell
                   align="center"

@@ -62,11 +62,11 @@ const GitHubGraph = ({ contributions }) => {
       labels.push(
         <text
           key={`month-${month}`}
-          x={-30} // Adjust the x position for month names
+          x={-30} 
           y={(month + 1) * 12}
           fill="#fff"
           fontSize="10"
-          className="text-green-500" // Apply Tailwind CSS for color
+          className="text-green-500" 
         >
           {monthNames[month]}
         </text>
@@ -76,11 +76,11 @@ const GitHubGraph = ({ contributions }) => {
       labels.push(
         <text
           key={`day-${day}`}
-          x={day * 12 - 1} // Adjust the x position for day numbers
-          y={-2} // Adjust the y position for day numbers
+          x={day * 12 - 1} 
+          y={-2} 
           fill="#fff"
           fontSize="8"
-          className="text-gray-400" // Apply Tailwind CSS for color
+          className="text-gray-400" 
         >
           {day}
         </text>
@@ -98,9 +98,7 @@ const GitHubGraph = ({ contributions }) => {
       xmlns="http://www.w3.org/2000/svg"
       style={{ backgroundColor: "rgb(31 41 55)" }}
     >
-      {/* Render month and day labels */}
       <g transform="translate(41, 15)">{renderMonthAndDayLabels()}</g>
-      {/* Render graph cells */}
       <g transform="translate(40, 20)">{renderGraphCells()}</g>
     </svg>
   );

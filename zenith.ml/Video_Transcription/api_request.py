@@ -80,7 +80,7 @@ class TranscribeVideo(Resource):
                     audio_buffer = extract_audio(filename)
                     transcript = transcribe(audio_buffer)
                     add_transcript(video_id,transcript)
-                    return {'transcription': transcript}, 200
+                    return 200
 
                 except Exception as e:
                     logger.error(f"Error processing file: {str(e)}")

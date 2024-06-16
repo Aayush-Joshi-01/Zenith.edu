@@ -397,7 +397,6 @@ app.post("/auth/addVideo", upload.single("VideoLink"), async (req, res) => {
     }
 
     const { UserID, ReqID, VideoTitle, VideoDesc, CourseID, Status } = req.body;
-
     const videoFile = req.file;
 
     if (!videoFile.buffer) {
@@ -432,9 +431,19 @@ app.post("/auth/addVideo", upload.single("VideoLink"), async (req, res) => {
 
     const savedVideo = await addVideos.save();
 
+    try {
+      await axios.post('http://localhost:5001/transcribe', {
+        id: savedVideo._id,
+        file: req.file
+      });
+    } catch (error) {
+      console.error('Error calling transcription API:', error.message);
+    }
+
     res
       .status(200)
       .send({ message: "Video Added", data: savedVideo, success: true });
+
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: "An error occurred", success: false });
