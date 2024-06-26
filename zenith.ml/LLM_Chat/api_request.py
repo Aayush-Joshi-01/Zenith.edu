@@ -12,7 +12,7 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
-genai.configure(api_key="AIzaSyBFgMwzCRr5ANjx70kxgKU747AC5Z-qgXs")
+genai.configure(api_key="YOUR_API_KEY_HERE")
 
 generation_config = {
     "temperature": 1,
